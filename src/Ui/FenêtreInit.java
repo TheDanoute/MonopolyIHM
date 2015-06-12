@@ -121,9 +121,9 @@ public class FenêtreInit extends javax.swing.JFrame {
     private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
         if (ajouter.isEnabled()){
             monop.ajouterJoueur(nomJ.getText(),listColor.get((String)colorBox.getSelectedItem()));
-            for (Color c : listColor.values()){
+            /*for (Color c : listColor.values()){
                 list.
-            }
+            }*/
             this.setListJ(monop.getJoueurs());
         }
     }//GEN-LAST:event_ajouterActionPerformed
