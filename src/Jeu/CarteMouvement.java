@@ -53,5 +53,6 @@ public class CarteMouvement extends Carte{
         } else {
             j.enPrison();
         }
+        super.getMonop().getPlateau().update();
     }
 }

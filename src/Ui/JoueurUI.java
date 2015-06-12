@@ -27,7 +27,7 @@ public class JoueurUI {
         }
         for (ProprieteAConstruire p : j.getProprietesAConstruire()){
             monop.getPlateau().messageLog(p.getNom());
-            monop.getPlateau().messageLog("Groupe : "+p.getGroupe());
+            monop.getPlateau().messageLog("Groupe : "+p.getGroupe().getCouleur().name());
             monop.getPlateau().messageLog("Avec "+p.getImmobilier()+" construction(s)");
         }
         monop.getPlateau().messageLog("Nombre de carte(s) sortie de prison : "+j.getNBCartePrison());
@@ -44,7 +44,7 @@ public class JoueurUI {
         }
         for (ProprieteAConstruire p : j.getProprietesAConstruire()){
             monop.getPlateau().messageLog(p.getNom());
-            monop.getPlateau().messageLog("Groupe : "+p.getGroupe());
+            monop.getPlateau().messageLog("Groupe : "+p.getGroupe().getCouleur().name());
             monop.getPlateau().messageLog("Avec "+p.getImmobilier()+" construction(s)");
         }
     }
@@ -76,7 +76,7 @@ public class JoueurUI {
                     for (ProprieteAConstruire p : j.getProprietesAConstruire(c)) {
                         if (!e.getListP().contains(p)){
                             monop.getPlateau().messageLog("Propriété n°"+i+" : "+p.getNom());
-                            monop.getPlateau().messageLog("Groupe : "+p.getGroupe());
+                            monop.getPlateau().messageLog("Groupe : "+p.getGroupe().toString());
                             listP.put(i,p);
                             i++; 
                         } 

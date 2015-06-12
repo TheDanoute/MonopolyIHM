@@ -29,11 +29,11 @@ public class PaquetsCartes {
         cartesChancesPoubelle = new ArrayList<>();
         cartesCommunautaires = new ArrayList<>();
         cartesCommunautairesPoubelle = new ArrayList<>();
+        this.monop=monop;
         this.initPaquetsCartes(dataFilename);
         // Mélange des listes de cartes
         Collections.shuffle(cartesChances);
         Collections.shuffle(cartesCommunautaires);
-        this.monop=monop;
     }
     
     private void initPaquetsCartes(String dataFilename) {

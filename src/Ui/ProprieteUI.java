@@ -153,11 +153,11 @@ public class ProprieteUI {
         }
         
         public  boolean encoreConstruire() {
-            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous construire une autre maison/hotel ? (oui/non)");
+            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous construire une autre maison/hotel ?");
         }
         
         public  boolean encoreDetruire() {
-            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous detruire une autre maison/hotel ? (oui/non)");
+            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous detruire une autre maison/hotel ?");
         }
         
         public  void printDetruire() {

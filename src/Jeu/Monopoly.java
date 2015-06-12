@@ -225,9 +225,9 @@ public class Monopoly {
 	}
 
         public void jouerUnePartie(String dataFilename) {
-            cartes = new PaquetsCartes("cartes_"+dataFilename,this);
             this.buildGamePlateau(dataFilename);
             this.initPartieGraph();
+            cartes = new PaquetsCartes("cartes_"+dataFilename,this);
         }
         public void lancerPlateau(){
             plateau = new Plateau(this);
