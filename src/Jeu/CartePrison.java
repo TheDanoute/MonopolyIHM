@@ -13,8 +13,8 @@ import Ui.TexteUI;
  */
 public class CartePrison extends Carte{
     
-    public CartePrison(String t,String d){
-        super(t,d);
+    public CartePrison(String t,String d,Monopoly mo){
+        super(t,d,mo);
     }
     
     @Override

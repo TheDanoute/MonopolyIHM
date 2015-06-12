@@ -45,31 +45,31 @@ public class PaquetsCartes {
                 switch (caseType) {
                     case "A":
                         {
-                            CarteArgent c = new CarteArgent(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]));
+                            CarteArgent c = new CarteArgent(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]),monop);
                             this.addCarte(c);
                             break;
                         }
                     case "M":
                         {
-                            CarteMouvement c = new CarteMouvement(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]),false);
+                            CarteMouvement c = new CarteMouvement(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]),false,monop);
                             this.addCarte(c);
                             break;
                         }
                     case "MA":
                         {
-                            CarteMouvement c = new CarteMouvement(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]),true);
+                            CarteMouvement c = new CarteMouvement(data.get(i)[0],data.get(i)[2],Integer.valueOf(data.get(i)[3]),true,monop);
                             this.addCarte(c);
                             break;
                         }
                     case "P":
                         {
-                            CartePrison c = new CartePrison(data.get(i)[0],data.get(i)[2]);
+                            CartePrison c = new CartePrison(data.get(i)[0],data.get(i)[2],monop);
                             this.addCarte(c);
                             break;
                         }
                     case "S":
                         {
-                            CarteSpecial c = new CarteSpecial(data.get(i)[0],data.get(i)[3],Integer.valueOf(data.get(i)[2]));
+                            CarteSpecial c = new CarteSpecial(data.get(i)[0],data.get(i)[3],Integer.valueOf(data.get(i)[2]),monop);
                             this.addCarte(c);
                             break;
                         }
@@ -87,7 +87,7 @@ public class PaquetsCartes {
     }
     
     private void addCarte(Carte c){
-        CarteUI.printInfo(c);
+        monop.getCaUi().printInfo(c);
         if(c.getType()==CarteType.communautaire){
             cartesCommunautaires.add(c);
         } else {

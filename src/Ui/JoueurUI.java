@@ -148,15 +148,10 @@ public class JoueurUI {
             monop.getPlateau().messageLog("Vous n'avez plus de propriete à hypothequer");
         }
         
-        public  String chooseLaFin() {
-        String rep = TexteUI.question("Que voulez-vous faire ? (vendre/hypotheque)");
-        while (!rep.equals("vendre")&&!rep.equals("hypotheque")) {
-            monop.getPlateau().messageLog("Erreur : vous devez répondre par : vendre/hypotheque ! Recommencez :");
-            rep = TexteUI.question("Que voulez-vous faire ? (vendre/hypotheque)");
-        }
-        return rep;
-        }
-
+    public String chooseLaFin() {
+        return BoiteDialogUI.afficherVendreHypotheque(monop.getPlateau(),"Que voulez-vous faire ?");
+    }    
+    
     public  boolean sortDuJeu(Joueur j) {
         if (BoiteDialogUI.afficherBool(monop.getPlateau(),"Etes-vous sûr de vouloir arreter ? (oui/non)")) {
             monop.getPlateau().messageLog("Le joueur " + j.getNomJoueur() + " sort du jeu... Ses possessions retournent à la banque");

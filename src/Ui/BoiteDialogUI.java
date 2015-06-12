@@ -193,5 +193,70 @@ public class BoiteDialogUI {
         return res;
     }
     
+    public static String afficherLeverHypotheque(JFrame fenetre, String s) {
+
+        boolean res = false;
+        if (s != null) {
+            String [] choix = new String[] { "Lever", "Hypothèque" }; 
+            Object selectedValue = JOptionPane.showOptionDialog(fenetre,
+                  s, 
+                  "Choix",
+                  JOptionPane.DEFAULT_OPTION,
+                  JOptionPane.QUESTION_MESSAGE, 
+                  null,
+                  choix,
+                  choix[1]);
+            res = (((Integer) selectedValue) == 0);
+        }
+        if (res){
+            return "lever";
+        }else{
+           return "hypotheque"; 
+        } 
+    }
+    
+    public static String afficherChancePayer(JFrame fenetre, String s) {
+
+        boolean res = false;
+        if (s != null) {
+            String [] choix = new String[] { "Chance", "Payer" }; 
+            Object selectedValue = JOptionPane.showOptionDialog(fenetre,
+                  s, 
+                  "Choix",
+                  JOptionPane.DEFAULT_OPTION,
+                  JOptionPane.QUESTION_MESSAGE, 
+                  null,
+                  choix,
+                  choix[1]);
+            res = (((Integer) selectedValue) == 0);
+        }
+        if (res){
+            return "chance";
+        }else{
+           return "payer"; 
+        } 
+    }
+    
+    public static String afficherVendreHypotheque(JFrame fenetre, String s) {
+
+        boolean res = false;
+        if (s != null) {
+            String [] choix = new String[] { "Vendre", "Hypotheque" }; 
+            Object selectedValue = JOptionPane.showOptionDialog(fenetre,
+                  s, 
+                  "Choix",
+                  JOptionPane.DEFAULT_OPTION,
+                  JOptionPane.QUESTION_MESSAGE, 
+                  null,
+                  choix,
+                  choix[1]);
+            res = (((Integer) selectedValue) == 0);
+        }
+        if (res){
+            return "vendre";
+        }else{
+           return "hypotheque"; 
+        } 
+    }
     
 }

@@ -60,9 +60,7 @@ public class TexteUI {
         return BoiteDialogUI.afficherBoolS(monop.getPlateau(),"Voulez-vous rajouter de l'argent ? (oui/non)");
     }
     
-    public  int combienArgent(){
-        return Integer.parseInt(TexteUI.question("Combien d'argent voulez-vous ? (nombre)"));
-    }
+    
     
     public  void pasPropEch (Joueur j){
         monop.getPlateau().messageLog(j.getNomJoueur()+" n'a pas de propriété échangeable");
@@ -70,10 +68,6 @@ public class TexteUI {
     
     public  void vosProps(){
         monop.getPlateau().messageLog("*** Vos propriétés ***");
-    }
-    
-    public  int choixPropEch2(){
-        return Integer.valueOf(TexteUI.question("Quelle propriete proposez-vous ? (numéro)"));
     }
     
     public  String autrePropEch2 (){
@@ -102,10 +96,6 @@ public class TexteUI {
         monop.getPlateau().messageLog(j.getNomJoueur()+" n'a pas de carte sortie de prison.");
     }
     
-    public  int offreCartePrison (Joueur j){
-        return Integer.valueOf(TexteUI.question(j.getNomJoueur()+" a une carte sortie de prison, combien lui en proposez-vous ?"));
-    }
-    
     public  String propositionEchange (Joueur j2, Joueur j1, int somme){
         return BoiteDialogUI.afficherBoolS(monop.getPlateau(),j2.getNomJoueur()+", "+j1.getNomJoueur()+" vous propose "+somme+"€ contre une carte sortie de prison, êtes-vous d'accord? (oui/non)");
     }
@@ -120,15 +110,6 @@ public class TexteUI {
     
     public  void pasEncoreEch(){
         monop.getPlateau().messageLog("Vous ne pouvez pas faire d'échange, toutes les propriétés n'ont pas encore été vendues");
-    }
-    // on peut le tej
-    public  boolean bool(String g) {
-        String rep = question(g);
-        while (!rep.equals("non") && !rep.equals("oui")) {
-            System.out.println("Erreur, vous devez saisir oui ou non ! Recommencez : ") ;
-            rep = question(g);
-        }
-        return rep.equals("oui");
     }
     
     public  int inte(String g) {

@@ -17,8 +17,8 @@ public class CarteMouvement extends Carte{
     private int carreau;
     private boolean verifDep;
     
-    public CarteMouvement(String t,String d,int c,boolean vD){
-        super(t,d);
+    public CarteMouvement(String t,String d,int c,boolean vD,Monopoly mo){
+        super(t,d,mo);
         this.setCarreau(c);
         this.setVerifDep(vD);
     }
@@ -44,7 +44,7 @@ public class CarteMouvement extends Carte{
         j.getMonopoly().getPlateau().messageLog(this.getDescription());
         if (verifDep && j.getPositionCourante().getNum()>carreau){
             j.addCash(200);
-            CarteUI.laChance();
+            super.getMonop().getCaUi().laChance();
             j.getMonopoly().getjUi().printCashVous(j);
         }
         j.setPositionCourante(carreau);

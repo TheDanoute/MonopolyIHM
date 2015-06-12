@@ -17,11 +17,10 @@ public class FenêtreInit extends javax.swing.JFrame {
     
     private Monopoly monop;
     private HashMap<String,Color> listColor;
-    private String[] list = {"Rouge","Bleu","Jaune","Noir","Vert","Blanc"};
+    private ArrayList<String> list = new ArrayList<String>();
 
     public FenêtreInit(Monopoly monop) {
        this.monop=monop;
-       initComponents();
        listColor = new HashMap<>();
        listColor.put("Rouge", Color.red);
        listColor.put("Bleu", Color.blue);
@@ -29,11 +28,19 @@ public class FenêtreInit extends javax.swing.JFrame {
        listColor.put("Noir", Color.black);
        listColor.put("Vert", Color.green);
        listColor.put("Blanc", Color.white);
+       for (String s : listColor.keySet()){ 
+            list.add(s);
+        }
+       initComponents();
+       this.setListColor();
     }
     public FenêtreInit(){
+        
         initComponents();
+        this.setListColor();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,8 +80,6 @@ public class FenêtreInit extends javax.swing.JFrame {
         });
 
         nomJ.setText("Entrez un nom de joueur");
-
-        colorBox.setModel(new javax.swing.DefaultComboBoxModel(list));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,9 +126,8 @@ public class FenêtreInit extends javax.swing.JFrame {
     private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
         if (ajouter.isEnabled()){
             monop.ajouterJoueur(nomJ.getText(),listColor.get((String)colorBox.getSelectedItem()));
-            /*for (Color c : listColor.values()){
-                list.
-            }*/
+            list.remove((String)colorBox.getSelectedItem());
+            this.setListColor();
             this.setListJ(monop.getJoueurs());
         }
     }//GEN-LAST:event_ajouterActionPerformed
@@ -152,6 +156,15 @@ public class FenêtreInit extends javax.swing.JFrame {
         }
     }
 
+    public void setListColor (){
+        String [] list2 = new String[list.size()];
+        int i =0;
+        for (String s : list){
+            list2[i]=s;
+            i++;
+        }
+        colorBox.setModel(new javax.swing.DefaultComboBoxModel(list2));  
+    }
     
     /**
      * @param args the command line arguments

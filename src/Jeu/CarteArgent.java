@@ -14,8 +14,8 @@ public class CarteArgent extends Carte{
     
     private int montant;
     
-    public CarteArgent(String t,String d,int m) {
-        super(t,d);
+    public CarteArgent(String t,String d,int m,Monopoly mo) {
+        super(t,d,mo);
         this.setMontant(m);
     }
 

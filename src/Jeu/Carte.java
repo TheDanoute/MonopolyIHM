@@ -13,10 +13,12 @@ package Jeu;
 public abstract class Carte {
     private CarteType type;
     private String description;
+    private Monopoly monop;
     
-    public Carte(String t,String d) {
+    public Carte(String t,String d, Monopoly m) {
         this.setDescription(d);
         this.setType(t);
+        this.monop=m;
     }
 
     public CarteType getType() {
@@ -38,6 +40,10 @@ public abstract class Carte {
 
     private void setDescription(String description) {
         this.description = description;
+    }
+
+    public Monopoly getMonop() {
+        return monop;
     }
     
     public abstract void action(Joueur j);

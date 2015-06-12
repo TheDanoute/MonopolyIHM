@@ -6,40 +6,37 @@
 
 package Ui;
 
-import Jeu.Carreau;
-import Jeu.Carte;
+import Jeu.*;
 
 /**
  *
  * @author devaucod
  */
 public class CarteUI {
-    
-    public static void deplacement(Carreau c){
-        System.out.println("Vous êtes donc a la case n°" + c.getNum() + ":" + c.getNom());
+    private Monopoly monop;
+    public CarteUI (Monopoly monop){
+        this.monop=monop;
+    }
+    public  void deplacement(Carreau c){
+        monop.getPlateau().messageLog("Vous êtes donc a la case n°" + c.getNum() + ":" + c.getNom());
     }
     
-    public static void payerHotelMaison(int pM, int nbM, int pH, int nbH) {
-        System.out.println("Prix pour les maisons : " + pM + "*" + nbM + "=" + pM*nbM);
-        System.out.println("Prix pour les hotels : " + pH + "*" + nbH + "=" + pH*nbH);
+    public  void payerHotelMaison(int pM, int nbM, int pH, int nbH) {
+        monop.getPlateau().messageLog("Prix pour les maisons : " + pM + "*" + nbM + "=" + pM*nbM);
+        monop.getPlateau().messageLog("Prix pour les hotels : " + pH + "*" + nbH + "=" + pH*nbH);
         int somme = nbM*pM+nbH*pH;
-        System.out.println("Total : " + somme + "€");
+        monop.getPlateau().messageLog("Total : " + somme + "€");
     }
     
-    public static String jAiDeLaChance() {
-        String rep = TexteUI.question("Vous choisissez ? (chance/payer)");
-        while (!rep.equals("payer")&&!rep.equals("chance")) {
-            System.out.println("Erreur : vous devez répondre par : chance/payer ! Recommencez :");
-            rep = TexteUI.question("Que voulez-vous faire ? (chance/payer)");
-        }
-        return rep;
+    public  String jAiDeLaChance() {
+        return BoiteDialogUI.afficherChancePayer(monop.getPlateau(),"Vous choisissez ?");
     }
     
-    public static void printInfo(Carte c) {
-        System.out.println("Carte type : " + c.getType() + " ; " + c.getDescription());
+    public  void printInfo(Carte c) {
+        monop.getPlateau().messageLog("Carte type : " + c.getType() + " ; " + c.getDescription());
     }
 
-    public static void laChance() {
-        System.out.println("Vous êtes passé par la case départ");
+    public  void laChance() {
+        monop.getPlateau().messageLog("Vous êtes passé par la case départ");
     }
 }

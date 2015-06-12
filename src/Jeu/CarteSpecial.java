@@ -17,8 +17,8 @@ public class CarteSpecial extends Carte{
     
     private int specialNumber;
     
-    public CarteSpecial(String t,String d,int s){
-        super(t,d);
+    public CarteSpecial(String t,String d,int s, Monopoly mo){
+        super(t,d,mo);
         this.setSpecialNumber(s);
     }
     
@@ -62,7 +62,7 @@ public class CarteSpecial extends Carte{
                   j.getMonopoly().getjUi().printCashVous(j);
             break;
             case 1:
-                String s = CarteUI.jAiDeLaChance();
+                String s = super.getMonop().getCaUi().jAiDeLaChance();
                 if (s.equals("payer")) {
                     j.removeCash(10);
                 } else {
@@ -89,13 +89,13 @@ public class CarteSpecial extends Carte{
                         nbm+=p.getImmobilier();
                     }
                 }
-                CarteUI.payerHotelMaison(pm,nbm,ph,nbh);
+                super.getMonop().getCaUi().payerHotelMaison(pm,nbm,ph,nbh);
                 j.removeCash(nbm*pm+nbh*ph);
                  j.getMonopoly().getjUi().printCashVous(j);
             break;
             case 4:
                 j.setPositionCourante(j.getPositionCourante().getNum()-3);
-                CarteUI.deplacement(j.getPositionCourante());
+                super.getMonop().getCaUi().deplacement(j.getPositionCourante());
                 j.getPositionCourante().action(j);
             break;
         }

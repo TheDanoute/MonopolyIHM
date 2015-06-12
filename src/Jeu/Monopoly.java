@@ -30,6 +30,7 @@ public class Monopoly {
         private JoueurUI jUi;
         private CarreauUI cUi;
         private int compteurDoubleJoueur;
+        private CarteUI caUi;
         
 	public Monopoly(String dataFilename){
             compteurDoubleJoueur=0;
@@ -103,6 +104,12 @@ public class Monopoly {
         public TexteUI gettUi() {
             return tUi;
         }
+
+        public CarteUI getCaUi() {
+            return caUi;
+        }
+        
+        
         
         public Plateau getPlateau() {
             return plateau;
@@ -226,6 +233,7 @@ public class Monopoly {
             plateau.setVisible(true);
         }
         public void lancerUnePartie(){
+            caUi = new CarteUI(this);
             tUi= new TexteUI(this);
             pUi = new ProprieteUI(this);
             jUi = new JoueurUI(this);
@@ -640,142 +648,7 @@ public class Monopoly {
                     }
                 }
             }
-         
-       
-
-         /*public void echanger(Joueur j1) {
-                    // On teste si toutes le propriétés ont été vendu (condition pour faire un échange)
-             boolean toutVendu = true;
-             int j = 0;
-             for (CarreauPropriete cp : this.getCarreauxPropriete()){
-                 if (cp.getProprietaire()==null){
-                     toutVendu=false;
-                 }
-             }
-            if (toutVendu){
-                tUi.echange();
-                Joueur j2;
-                {
-                   ArrayList<Joueur> listJoueur = new ArrayList<>();                  // Création d'une liste de joueur ayant des biens à échanger
-                   int i = 1;
-                   for (Joueur jTemp : joueurs) {
-                       if (j1!=jTemp) {
-                               // Affichage des propriétés / carte sortie de prison de chaque joueur excepté celui demandant l'échange
-                           jUi.afficheProprietes(jTemp, i);
-                           listJoueur.add(jTemp);
-                       }
-                   }
-                   j2 = tUi.joueurChoisisEchange(listJoueur);
-                }
-                String rep = tUi.typeEchange();  // On récupère le type de l'échange
-                switch (rep) {
-                                       // Si c'est une propriété
-                        case "propriete":
-                        {
-                                   // La classe échange permet de sauvegarder ce que chaque joueur met dans l'échange (propriétés/argant)
-                           Echange echangeJ2 = new Echange(j2);
-                           boolean stop = false;
-                           boolean stop2 = false;
-                           boolean noTrade = false;
-                           HashMap<Integer,CarreauPropriete> listP2= new HashMap<>();    // HashMap reliant chaque propriétés disponibles à l'échange à un indice
-                           tUi.sesProps();
-                           while (!stop){                                                // Tant que l'on souhaite ajouter une propriété à l'échange on reste dans la boucle
-                               listP2 = jUi.afficheProprietesEchangeables(j2, echangeJ2, listP2);                             
-                               if (!listP2.isEmpty()){
-                                   int num = tUi.choixPropEch();     // Grâce à l'indice, on récupère la propriété souhaitée
-                                   echangeJ2.addP(listP2.get(num));                                                            // On l'ajoute à la classe échange
-                                   listP2.remove(num);                                                                         // Puis on l'a supprime des propriétés disponibles à l'échange    
-                                   String rep2 = tUi.autrePropEch();
-                                   if (!rep2.equals("oui")){
-                                       String rep3 = tUi.rajouteArgent();
-                                       if(rep3.equals("oui")){                         // Possibilité d'ajouter de l'argent à l'échange
-                                           int somme =tUi.combienArgent();
-                                           echangeJ2.setSomme(somme);
-                                       }
-                                       stop=true;   
-                                   }
-                               }else{
-                                           // Si le joueur choisis n'a pas de propriété échangeable, un message est affiché et aucun échange ne se fait
-                                   tUi.pasPropEch(j2);
-                                   noTrade=true;
-                                   stop=true;
-                               }
-                           }
-                                   // Après avoir renseigné ce qu'il veut, le joueur indique ce qu'il propose en échange, avec le même procédé
-                           if (!noTrade){
-                           Echange echangeJ1 = new Echange(j1);
-                           HashMap<Integer,CarreauPropriete> listP1= new HashMap<>();
-                           while (!stop2){
-                               tUi.vosProps();
-                               jUi.afficheProprietesEchangeables(j1, echangeJ1, listP1);
-                               if (!listP1.isEmpty()){
-                                   int num = tUi.choixPropEch2();
-                                   echangeJ1.addP(listP1.get(num));
-                                   listP1.remove(num);
-                                   String rep2 = tUi.autrePropEch2();
-                                   if (!rep2.equals("oui")){
-                                       stop2=true;
-                                   }
-                               }else{
-                                   tUi.pasPropEch(j1);
-                                   noTrade=true;
-                                   stop2=true;
-                               }
-                           }
-                                   String rep2=tUi.rajouteArgent();
-                                   if(rep2.equals("oui")){
-                                           int somme =tUi.combienArgent();
-                                           echangeJ1.setSomme(somme);
-                                       }
-
-                               if (noTrade && echangeJ1.getSomme()==0){              // Dans ce cas (pas de carté ni d'argent, échange refusé
-                                   tUi.pasEchRienProp();
-                               }else{
-                                          // Sinon, on affiche tout ce que le joueur demande et propose
-                                   String rep3 = tUi.propositionEchange(echangeJ1, echangeJ2, j1, j2);
-                                   if (rep3.equals("oui")){
-                                               // Si oui, le transfert de propriété et d'argent ce fait
-                                       for (CarreauPropriete cp : echangeJ1.getListP()){
-                                           cp.setProprietaire(j2);
-                                       }
-                                       for (CarreauPropriete cp : echangeJ2.getListP()){
-                                           cp.setProprietaire(j1);
-                                       }
-                                       j1.addCash(echangeJ2.getSomme());
-                                       j2.removeCash(echangeJ2.getSomme());
-
-                                       j2.addCash(echangeJ1.getSomme());
-                                       j1.removeCash(echangeJ1.getSomme());
-                                   }
-                               }
-                           }
-                           break;
-                        }
-                       case "carte":
-                        {
-                           if (j2.getNBCartePrison()==0){
-                               tUi.pasCartePrison(j2);
-                           }else{
-                               int rep2 = tUi.offreCartePrison(j2);
-                               String rep3 = tUi.propositionEchange(j2, j1, rep2);
-                               if (rep3.equals("oui")){
-                                   j2.removeCartePrison();
-                                   j1.addCartePrison();
-                                   j2.addCash(rep2);
-                                   j1.removeCash(rep2);
-                               }else{
-                                   tUi.echAnnul(j2);
-                               }
-                           }
-                           break;
-                        }
-                          
-            }
-            }else{
-                tUi.pasEncoreEch();
-            } 
-        }
-         */
+        
         
         public void echanger (Joueur j1, Joueur j2, Echange e1, Echange e2){
             for (CarreauPropriete cp : e1.getListP()){

@@ -273,7 +273,7 @@ public class Joueur {
             compagnies.remove(c);
         }
         public void addCartePrison (){
-            cartePrison.add(new CartePrison("CC","P"));
+            cartePrison.add(new CartePrison("CC","P",monopoly));
         }
         public void removeCartePrison(){
             cartePrison.remove(0);

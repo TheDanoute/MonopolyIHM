@@ -24,17 +24,17 @@ public class ProprieteUI {
         this.monop=monop;
     }
     public  void construction() {
-        System.out.println("Construction :");
+        monop.getPlateau().messageLog("Construction :");
     }
     
     public  void aucunGroupeComplet() {
-        System.out.println("Vous ne possédez aucun groupe de proprietes complet...");
+        monop.getPlateau().messageLog("Vous ne possédez aucun groupe de proprietes complet...");
     }
     
     public  CouleurPropriete chooseGroupe(HashMap<CouleurPropriete,ArrayList<ProprieteAConstruire>> list) {
-        System.out.println("Vous possédez les groupes modifiables suivants :");
+        monop.getPlateau().messageLog("Vous possédez les groupes modifiables suivants :");
         for (CouleurPropriete c : list.keySet()) {
-            System.out.println(c.toString());
+            monop.getPlateau().messageLog(c.toString());
         }
         boolean ok = false; //Boolean anti-faute de frappe
         CouleurPropriete coul = CouleurPropriete.bleuCiel; //Initialisation de variable
@@ -44,33 +44,33 @@ public class ProprieteUI {
                 if (list.containsKey(coul)) {
                     ok = true;
                 } else {
-                    System.out.println("Cette couleur ne fait pas partie de la liste");
+                    monop.getPlateau().messageLog("Cette couleur ne fait pas partie de la liste");
                 }
             } catch(java.lang.IllegalArgumentException e) {
-                System.out.println("Erreur, recommencez. (Sensible à la casse)");
+                monop.getPlateau().messageLog("Erreur, recommencez. (Sensible à la casse)");
             }
         } while (!ok);
         return coul;
     }
     
     public  void erreurHypo() {
-        System.out.println("Au moins une des propriétés de ce groupe est hypothéquée, impossible de construire");
+        monop.getPlateau().messageLog("Au moins une des propriétés de ce groupe est hypothéquée, impossible de construire");
     }
     
     public  void erreurHotel() {
-        System.out.println("Tous ces terrains on déjà des hotels, impossible de construire dessus");
+        monop.getPlateau().messageLog("Tous ces terrains on déjà des hotels, impossible de construire dessus");
     }
     
     public  void construireSur() {
-        System.out.println("Vous pouvez construire sur :");
+        monop.getPlateau().messageLog("Vous pouvez construire sur :");
     }
     
     public  void printPropriete(ProprieteAConstruire p) {
-        System.out.println(p.getNom() + " ; Construction existante : "+ getImmobilier(p) + " ; n°" + p.getNum());
+        monop.getPlateau().messageLog(p.getNom() + " ; Construction existante : "+ getImmobilier(p) + " ; n°" + p.getNum());
     }
     
     public void printProprieteProprietaire(ProprieteAConstruire p) {
-        System.out.println(p.getNom() + " ; Groupe : " + p.getCouleur().toString() + "(" + p.getProprietaire().getProprietesAConstruire(p.getCouleur()).size() + "/" + p.getNbPropriete() + ") ; Construction existante : "+ getImmobilier(p) + " ; n°" + p.getNum());
+        monop.getPlateau().messageLog(p.getNom() + " ; Groupe : " + p.getCouleur().toString() + "(" + p.getProprietaire().getProprietesAConstruire(p.getCouleur()).size() + "/" + p.getNbPropriete() + ") ; Construction existante : "+ getImmobilier(p) + " ; n°" + p.getNum());
     }
 
     
@@ -124,7 +124,7 @@ public class ProprieteUI {
             } else {
                 rep = " de maison ";
             }
-            System.out.println("La banque n'a malheuresement plus" + rep + "en stock, vous ne pouvez pas construire sur ces terrains...");
+            monop.getPlateau().messageLog("La banque n'a malheuresement plus" + rep + "en stock, vous ne pouvez pas construire sur ces terrains...");
             return true;
         }
         
@@ -133,19 +133,19 @@ public class ProprieteUI {
         }
         
         public  void errorConstruction(){
-            System.out.println("Ce terrain n'est pas constructible pour le moment");
+            monop.getPlateau().messageLog("Ce terrain n'est pas constructible pour le moment");
         }
         
         public  void errorDestruction() {
-            System.out.println("Ce terrain n'est pas destructible pour le moment");
+            monop.getPlateau().messageLog("Ce terrain n'est pas destructible pour le moment");
         }
         
         public  void errorHypoNonProposee(){
-            System.out.println("Erreur : Ce terrain n'est pas disponible à l'hypothèque, recommencez :");
+            monop.getPlateau().messageLog("Erreur : Ce terrain n'est pas disponible à l'hypothèque, recommencez :");
         }
         
         public  void errorNonHypo(){
-            System.out.println("Erreur : Ce terrain n'est pas hypothéqué, recommencez :");
+            monop.getPlateau().messageLog("Erreur : Ce terrain n'est pas hypothéqué, recommencez :");
         }
         
         public int chooseHypo() {
@@ -161,46 +161,36 @@ public class ProprieteUI {
         }
         
         public  void printDetruire() {
-            System.out.println("Vous pouvez détruire sur les proprietes suivantes : (attention les hotels ne rendront pas des maisons)");
+            monop.getPlateau().messageLog("Vous pouvez détruire sur les proprietes suivantes : (attention les hotels ne rendront pas des maisons)");
         }
         
         public  boolean errorVide() {
-            System.out.println("Les terrains de ce groupe sont tous vides, vous ne pouvez plus rien détruire");
+            monop.getPlateau().messageLog("Les terrains de ce groupe sont tous vides, vous ne pouvez plus rien détruire");
             return true;
         }
         
         public  String menuHypo(boolean display) {
-            String rep;
-            if (display) {
-                rep = TexteUI.question("Voulez-vous lever une hypotheque ou hypothequer ? (lever/hypotheque)");
-                while (rep.equals("lever") && rep.equals("hypotheque")) {
-                    System.out.println("Erreur : vous devez repondre par lever ou hypotheque ! Recommencez :");
-                    rep = TexteUI.question("Voulez-vous lever une hypotheque ou hypothequer ? (lever/hypotheque)");
-                }
-            } else {
-                rep = "hypotheque";
-            }
-            return rep;    
+                return BoiteDialogUI.afficherLeverHypotheque(monop.getPlateau(), "Voulez-vous lever une hypotheque ou hypothequer ?");   
         }
         
         public  void printListHypo(){
-            System.out.println("Liste des proprietes hypothéquées :");
+            monop.getPlateau().messageLog("Liste des proprietes hypothéquées :");
         }
         
         public  void printGare(Gare g) {
-            System.out.println("Gare : " + g.getNom() + " ; n°" + g.getNum());
+            monop.getPlateau().messageLog("Gare : " + g.getNom() + " ; n°" + g.getNum());
         }
         
         public  void printCompagnie(Compagnie c) {
-            System.out.println("Compagnie : " + c.getNom() + " ; n°" + c.getNum());
+            monop.getPlateau().messageLog("Compagnie : " + c.getNom() + " ; n°" + c.getNum());
         }
         
         public  void errorHypo() {
-            System.out.println("Vous n'avez aucune propriété hypothequée");
+            monop.getPlateau().messageLog("Vous n'avez aucune propriété hypothequée");
         }
          
         public  void leverHypo(CarreauPropriete c) {
-            System.out.println("Lever l'hypothèque de cette propriété coute : " + c.getPrixHypotheque() + "€");
+            monop.getPlateau().messageLog("Lever l'hypothèque de cette propriété coute : " + c.getPrixHypotheque() + "€");
         }
         
         public  boolean continuerHypo() {
@@ -208,52 +198,52 @@ public class ProprieteUI {
         }
         
         public  void hypoDispo() {
-            System.out.println("Liste des proprietes disponible à l'hypotheque :");
+            monop.getPlateau().messageLog("Liste des proprietes disponible à l'hypotheque :");
         }
         
         public  void printHypo(CarreauPropriete c) {
-            System.out.println("L'hypotheque vous rapporte" + c.getPrix()/2 + "€");
+            monop.getPlateau().messageLog("L'hypotheque vous rapporte" + c.getPrix()/2 + "€");
         }
         
         public boolean printAchat(CarreauPropriete c) {
             monop.getPlateau().messageLog("Cette " + c.getClass().getSimpleName() + " : " + c.getNom() + " est disponible à l'achat au prix de " + c.getPrix() +"€");
-            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous acheter cette " + c.getClass().getSimpleName() + " ?");
+            return BoiteDialogUI.afficherBool(monop.getPlateau(),"Voulez-vous acheter : " + c.getNom() + " au prix de "+c.getPrix()+"€ ?");
         }
         
         public  void printProprePAC(CarreauPropriete c) {
-            System.out.println("Vous êtes sur votre : " + c.getNom());
+            monop.getPlateau().messageLog("Vous êtes sur votre : " + c.getNom());
         }
         
         public  boolean toucherLoyer(CarreauPropriete c) {
-             System.out.println("Vous êtes tomber sur une " + c.getClass().getSimpleName() + " qui à déjà un propriétaire.");
+             monop.getPlateau().messageLog("Vous êtes tomber sur une " + c.getClass().getSimpleName() + " qui à déjà un propriétaire.");
              if (c.isHypotheque()) {
-                 System.out.println("Cette " + c.getClass().getSimpleName() + " est hypothéquée, vous ne payez rien");
+                 monop.getPlateau().messageLog("Cette " + c.getClass().getSimpleName() + " est hypothéquée, vous ne payez rien");
                  return false;
              } else {
-                System.out.println("Vous devez payer " + c.getLoyer() + "€");
+                monop.getPlateau().messageLog("Vous devez payer " + c.getLoyer() + "€");
                 return true;
              }
         }
         
         public  void nouvelleConstruction(ProprieteAConstruire p) {
-            System.out.println("Ce terrain dispose maintenant de : " + getImmobilier(p));
-            System.out.println("Les joueurs qui passeront sur ce terrain payeront : " + p.getLoyer() + "€");
+            monop.getPlateau().messageLog("Ce terrain dispose maintenant de : " + getImmobilier(p));
+            monop.getPlateau().messageLog("Les joueurs qui passeront sur ce terrain payeront : " + p.getLoyer() + "€");
             monop.getjUi().printCashVous(p.getProprietaire());
         }
         
         public  void destruction(ProprieteAConstruire p) {
-            System.out.println("la vente de cette maison vous rapporte " + p.getProprietaire().getCash() + "€");
-            System.out.println("Il reste sur ce terrain : " + getImmobilier(p));
+            monop.getPlateau().messageLog("la vente de cette maison vous rapporte " + p.getProprietaire().getCash() + "€");
+            monop.getPlateau().messageLog("Il reste sur ce terrain : " + getImmobilier(p));
         }
         
         public void payerCompagnie(int value) {
-            System.out.println("Le proprietaire possédant une seule compagnie, vous allez payer 4 fois la somme de votre lancer de dés");
-            System.out.println("Vous avez abtenu " + value/10 + " aux dés, donc vous payer : " + value +"€");
+            monop.getPlateau().messageLog("Le proprietaire possédant une seule compagnie, vous allez payer 4 fois la somme de votre lancer de dés");
+            monop.getPlateau().messageLog("Vous avez abtenu " + value/10 + " aux dés, donc vous payer : " + value +"€");
         }
         
         public void payerCompagnies(int value) {
-            System.out.println("Le proprietaire possédant les deux compagnies, vous allez payer dix fois la somme de votre lancer de dés");
-            System.out.println("Vous avez abtenu " + value/10 + " aux dés, donc vous payer : " + value +"€");
+            monop.getPlateau().messageLog("Le proprietaire possédant les deux compagnies, vous allez payer dix fois la somme de votre lancer de dés");
+            monop.getPlateau().messageLog("Vous avez abtenu " + value/10 + " aux dés, donc vous payer : " + value +"€");
         }
         
          public boolean jEssaye() {
@@ -262,21 +252,21 @@ public class ProprieteUI {
          
         
         public void destructionHotel(ProprieteAConstruire p,int argent) {
-            System.out.println("La vente de cet hotel vous rapporte " + argent + "€");
-            System.out.println("Ce terrain est maintenant vide de construction");
+            monop.getPlateau().messageLog("La vente de cet hotel vous rapporte " + argent + "€");
+            monop.getPlateau().messageLog("Ce terrain est maintenant vide de construction");
             monop.getjUi().printCashVous(p.getProprietaire());
         }
          
         public void possession(Joueur j) {
-            System.out.println(j.getNomJoueur() + " possède maintenant tout les propriétés du groupe, il peut désormais construire dessus");
+            monop.getPlateau().messageLog(j.getNomJoueur() + " possède maintenant tout les propriétés du groupe, il peut désormais construire dessus");
         }
         
         public void destructionMaison(ProprieteAConstruire p,int argent) {
-            System.out.println("La vente de cette maison vous rapporte " + argent + "€");
+            monop.getPlateau().messageLog("La vente de cette maison vous rapporte " + argent + "€");
             if(p.getImmobilier()>0) {
-                System.out.println("Il reste sur ce terrain : " + getImmobilier(p));
+                monop.getPlateau().messageLog("Il reste sur ce terrain : " + getImmobilier(p));
             } else {
-                System.out.println("Ce terrain est maintenant vide de construction");
+                monop.getPlateau().messageLog("Ce terrain est maintenant vide de construction");
             }
             monop.getjUi().printCashVous(p.getProprietaire());
         }
