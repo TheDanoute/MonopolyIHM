@@ -45,6 +45,20 @@ public class Joueur {
     public ArrayList<Gare> getGares() {
         return gares;
     }
+    
+    public ArrayList<CarreauPropriete> getProprietes(){
+        ArrayList<CarreauPropriete> listP = new ArrayList<CarreauPropriete>();
+        for (Compagnie c : this.getCompagnies()){
+                listP.add(c);
+        }
+        for (Gare g : this.getGares()){
+                listP.add(g);
+        } 
+        for (ProprieteAConstruire pac : proprietesAConstruire){
+            listP.add(pac);
+        }
+        return listP;
+    }
 
     public ArrayList<ProprieteAConstruire> getProprietesAConstruire() {
         return proprietesAConstruire;

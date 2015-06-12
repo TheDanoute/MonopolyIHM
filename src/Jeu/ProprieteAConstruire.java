@@ -117,7 +117,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         public void setPrixMaison(int prixMaison) {
             this.prixMaison = prixMaison;
         }
-
+        
         public void construire() {
             if (this.getProprietaire().getCash()<this.getPrixMaison()) {
                 super.getMonopoly().getjUi().errorArgent(super.getProprietaire());
@@ -134,6 +134,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
                 super.getMonopoly().getpUi().nouvelleConstruction(this);
             }
         }
+        
         
         public void detruire() {
             int argent;

@@ -31,6 +31,7 @@ public class Monopoly {
         private CarreauUI cUi;
         private int compteurDoubleJoueur;
         private CarteUI caUi;
+        private GestionUI gUi;
         
 	public Monopoly(String dataFilename){
             compteurDoubleJoueur=0;
@@ -536,6 +537,11 @@ public class Monopoly {
                }
              }
          }
+         
+        public void gestion(){
+            gUi = new GestionUI(this, jTemp);
+            gUi.setVisible(true);
+        }
         
         public void hypotheque(Joueur j,boolean display) throws Exception{
             String rep = pUi.menuHypo(display);
@@ -734,7 +740,14 @@ public class Monopoly {
     public void addMaison(int i) {
         nbMaisons+=i;
     }
-    
+    public CarreauPropriete getCarreauPropriete(String s){
+        for (CarreauPropriete cp : this.getCarreauxPropriete()){
+            if (cp.getNom().equals(s)){
+                return cp;
+            }
+        } 
+        return null;
+    }
     public ArrayList<CarreauPropriete> getCarreauxPropriete(){
         ArrayList<CarreauPropriete> listeCp = new ArrayList<>();
         for (Carreau c : carreaux.values()){

@@ -63,5 +63,12 @@ public abstract class CarreauPropriete extends Carreau {
             this.setHypotheque(false);
         }
         
+        public String estHypothequer (){
+            if (hypotheque){
+                return "oui";
+            }else{
+                return "non";
+            }
+        }
         
 }
