@@ -183,6 +183,7 @@ public class GestionUI extends javax.swing.JFrame {
             CarreauPropriete cp = monop.getCarreauPropriete(listProp.getSelectedItem());
             ProprieteAConstruire pac = (ProprieteAConstruire) cp;
             pac.construire();
+            setValues();
         }
     }//GEN-LAST:event_buyHouseActionPerformed
 
@@ -191,18 +192,21 @@ public class GestionUI extends javax.swing.JFrame {
             CarreauPropriete cp = monop.getCarreauPropriete(listProp.getSelectedItem());
             ProprieteAConstruire pac = (ProprieteAConstruire) cp;
             pac.detruire();
+            setValues();
         }
     }//GEN-LAST:event_deleteHouseActionPerformed
 
     private void hypothequerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hypothequerActionPerformed
         if (hypothequer.isEnabled()){
             monop.getCarreauPropriete(listProp.getSelectedItem()).hypotheqer();
+            setValues();
         }
     }//GEN-LAST:event_hypothequerActionPerformed
 
     private void leverhypoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leverhypoActionPerformed
         if (leverhypo.isEnabled()){
             monop.getCarreauPropriete(listProp.getSelectedItem()).leverHypotheque();
+            setValues();
         }
     }//GEN-LAST:event_leverhypoActionPerformed
 
