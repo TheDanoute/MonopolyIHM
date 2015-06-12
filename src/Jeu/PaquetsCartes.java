@@ -87,7 +87,6 @@ public class PaquetsCartes {
     }
     
     private void addCarte(Carte c){
-        monop.getCaUi().printInfo(c);
         if(c.getType()==CarteType.communautaire){
             cartesCommunautaires.add(c);
         } else {
