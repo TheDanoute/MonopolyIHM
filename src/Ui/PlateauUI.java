@@ -33,6 +33,8 @@ public class PlateauUI extends Canvas{
             g.setColor(j.getColor());
             Dimension dJ = this.getCoordonnéeJoueur(j);
             g.fillOval(dJ.width, dJ.height, 25, 25);
+            g.setColor(Color.BLACK);
+            g.drawOval(dJ.width, dJ.height, 25, 25);
         }
     }
     
@@ -55,14 +57,36 @@ public class PlateauUI extends Canvas{
             if (cP.getClass().getSimpleName().equals("ProprieteAConstruire")) {
                 ProprieteAConstruire pAC = (ProprieteAConstruire) cP;
                 Dimension dP = this.getCoordonnéeCase(cP);
-                if (pAC.getImmobilier()>0 && pAC.getImmobilier()<5) {
-                    g.setColor(Color.green);
-                    for (int i = 0 ; i<pAC.getImmobilier() ; i++) {
-                        g.fillRect(dP.width+i*4, dP.height+5, 10, 10);
+                if (pAC.getImmobilier()>0) {
+                    if (pAC.getNum()<11 || (pAC.getNum()>21 && pAC.getNum()<31)) {
+                        if (pAC.getImmobilier()<5) {
+                            for (int i = 0 ; i<pAC.getImmobilier() ; i++) {
+                                g.setColor(Color.green);
+                                g.fillRect(dP.width+i*12, dP.height+5, 10, 10);
+                                g.setColor(Color.black);
+                                g.drawRect(dP.width+i*12, dP.height+5, 10, 10);
+                            }
+                        } else if (pAC.getImmobilier()==5) {
+                            g.setColor(Color.red);
+                            g.fillRect(dP.width+30, dP.height+2, 16, 16);
+                             g.setColor(Color.black);
+                                g.drawRect(dP.width+30, dP.height+2, 16, 16);
+                        }
+                    } else {
+                        if (pAC.getImmobilier()<5) {
+                            for (int i = 0 ; i<pAC.getImmobilier() ; i++) {
+                                g.setColor(Color.green);
+                                g.fillRect(dP.width+5, dP.height+i*12, 10, 10);
+                                g.setColor(Color.black);
+                                g.drawRect(dP.width+5, dP.height+i*12, 10, 10);
+                            }
+                        } else if (pAC.getImmobilier()==5) {
+                            g.setColor(Color.red);
+                            g.fillRect(dP.width+2, dP.height+30, 16, 16);
+                             g.setColor(Color.black);
+                                g.drawRect(dP.width+2, dP.height+30, 16, 16);
+                        }
                     }
-                } else if (pAC.getImmobilier()==5) {
-                    g.setColor(Color.red);
-                    g.fillRect(dP.width+30, dP.height+2, 16, 16);
                 }
             }
         }
@@ -77,11 +101,11 @@ public class PlateauUI extends Canvas{
         if (j.getPositionCourante().getNum()<11) {
             return new Dimension(tampon*4 + (750 * (10-j.getPositionCourante().getNum()))/12,this.getSize().height-tampon-tampon);
         } else if (j.getPositionCourante().getNum()>10 && j.getPositionCourante().getNum()<21) {
-            return new Dimension(tampon+tampon,tampon*4 + (750 * (20-j.getPositionCourante().getNum()))/12);
+            return new Dimension(tampon,tampon*4 + (750 * (20-j.getPositionCourante().getNum()))/12);
         } else if (j.getPositionCourante().getNum()>20 && j.getPositionCourante().getNum()<31) {
-            return new Dimension(tampon*2 + (750 * (j.getPositionCourante().getNum()-21))/12,tampon+tampon);
+            return new Dimension(tampon*2 + (750 * (j.getPositionCourante().getNum()-21))/12,tampon);
         } else {
-            return new Dimension(this.getSize().width-tampon-tampon,tampon*2 + (750 * (j.getPositionCourante().getNum()-31)));
+            return new Dimension(this.getSize().width-tampon-tampon,tampon*2 + (750 * (j.getPositionCourante().getNum()-31))/12);
         }
     }
     
@@ -93,7 +117,7 @@ public class PlateauUI extends Canvas{
         } else if (c.getNum()>20 && c.getNum()<31) {
             return new Dimension(98+(62*(c.getNum()-22)),73);
         } else {
-            return new Dimension(654,96+(63*(20-c.getNum())));
+            return new Dimension(654,96+(62*(c.getNum()-32)));
         }
     }
 }

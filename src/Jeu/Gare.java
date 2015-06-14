@@ -49,7 +49,6 @@ public class Gare extends CarreauPropriete {
             } else if (this.getProprietaire()==j) {
                 super.getMonopoly().getpUi().printProprePAC(this);
             } else {
-                super.getMonopoly().getpUi().toucherLoyer(this);
                 if (super.getMonopoly().getpUi().toucherLoyer(this)) {
                     int l = this.getLoyer();
                     j.removeCash(l);
@@ -59,6 +58,7 @@ public class Gare extends CarreauPropriete {
                     super.getMonopoly().getjUi().printCashLe(j);
                  }
             }
+            super.getMonopoly().getPlateau().update();
         }
         @Override
         public void setProprietaire(Joueur j) {

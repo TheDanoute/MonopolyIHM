@@ -188,7 +188,7 @@ public class Joueur {
                             {
                                 if (vendre) {
                                     try {
-                                        this.getMonopoly().detruire(this);
+                                        this.getMonopoly().gestion();
                                     } catch(Exception e){
                                         getMonopoly().gettUi().message(e.getMessage());
                                         vendre = false;
@@ -202,7 +202,7 @@ public class Joueur {
                             {
                                 if(hypotheque) {
                                     try {
-                                        this.getMonopoly().hypotheque(this,false);
+                                        this.getMonopoly().gestion();
                                     } catch(Exception e){
                                         getMonopoly().gettUi().message(e.getMessage());
                                         hypotheque = false;

@@ -239,7 +239,27 @@ public class Monopoly {
             pUi = new ProprieteUI(this);
             jUi = new JoueurUI(this);
             cUi = new CarreauUI(this);
-            joueurs = this.trieRecursif(joueurs);         
+            joueurs = this.trieRecursif(joueurs);  
+            ProprieteAConstruire pAC;
+            for (CarreauPropriete cP : this.getCarreauxPropriete()){
+                if (cP.getNum()<=4) {
+                    cP.setProprietaire(joueurs.get(2));
+                    pAC = (ProprieteAConstruire) cP;
+                    pAC.setImmobilier(2);
+                } else if (cP.getNum()>37) {
+                    cP.setProprietaire(joueurs.get(1));
+                    pAC = (ProprieteAConstruire) cP;
+                    pAC.setImmobilier(5);
+                } else if (cP.getNum()>=7 && cP.getNum()<=10){
+                    cP.setProprietaire(joueurs.get(0));
+                } else if (cP.getNum()==6 || cP.getNum()==16) {
+                    cP.setProprietaire(joueurs.get(2));
+                }
+            }
+            joueurs.get(2).removeCash(1451);
+            joueurs.get(0).removeCash(143);
+            joueurs.get(1).addCash(352);
+            joueurs.get(0).addCartePrison();
             plateau.messageLog("Ordre des joueurs");
             for (Joueur jou : joueurs) {
                 plateau.messageLog(""+ jou.getNomJoueur());
@@ -251,80 +271,6 @@ public class Monopoly {
             jUi.afficheProprietes(jTemp);
             plateau.setValues(jTemp);
             }
-
-  
-	/*public void achatPropriete(Joueur aJ, CarreauPropriete cP) {
-		if (aJ.getCash()<cP.getPrix()){
-                    tUi.message(aJ.getNomJoueur()+" n'a pas assez d'argent pour acheter la propriété");
-                }else{
-                    tUi.message("Le joueur "+aJ.getNomJoueur()+" a achété la propriété '"+cP.getNom()+"'");
-                    cP.setProprietaire(aJ);
-                    aJ.removeCash(cP.getPrix());
-                    tUi.message(aJ.getNomJoueur()+"a désormais "+aJ.getCash()+" €");
-                }
-	}*/
-        
-        /*public void jouerUnCoup(Joueur aJ) {
-        jTemp = aJ;
-        plateau.messageLog("Vous avez "+aJ.getCash()+"€");
-        plateau.messageLog("Vos propriété(s) :");
-        for (Compagnie c : aJ.getCompagnies()){
-            plateau.messageLog("Propriété : "+c.getNom());
-            
-        }
-        for (Gare g : aJ.getGares()){
-            plateau.messageLog("Propriété : "+g.getNom());
-            
-        }
-        for (ProprieteAConstruire p : aJ.getProprietesAConstruire()){
-            plateau.messageLog("Propriété : "+p.getNom());
-            plateau.messageLog("Groupe : "+p.getGroupe().getCouleur().toString());
-            plateau.messageLog("Avec "+p.getImmobilier()+" construction(s)");
-        }
-       
-        
-        String rep = plateau.getAction();
-        while (10>0) { 
-                rep = plateau.getAction();
-                switch(rep) {
-                case "construire":
-                {
-                    this.construire(aJ);
-                    break;
-                }
-                case "echanger":
-                {
-                    this.echanger(aJ);
-                    break;
-                }
-                case "detruire":
-                {
-                    try {
-                        this.detruire(aJ);
-                    } catch (Exception e) {
-                        plateau.messageLog(e.getMessage());
-                    }
-                    break;
-                }
-                case "hypotheque":
-                {
-                    try {
-                        this.hypotheque(aJ,true);
-                    } catch (Exception e) {
-                        plateau.messageLog(e.getMessage());
-                    }
-                    break;
-                }
-                case "lancerDes":
-                {
-                    this.lancerDes(aJ, s);
-                }
-                
-            }
-            rep = tUi.question("Que voulez-vous faire ? (lancerDes/construire/echanger/detruire/hypotheque)");
-        }
-        
-    }*/
               
         public void lancerDes(int s){
             plateau.messageLog("Vous avancer");
@@ -357,6 +303,7 @@ public class Monopoly {
                 } else {
                     compteurDoubleJoueur++;
                 }
+                this.getPlateau().update();
         }
         
 	public boolean lancerDesAvancer(Joueur aJ,int s) {
@@ -408,252 +355,58 @@ public class Monopoly {
             aJ.setPositionCourante(aJ.getPositionCourante().getNum()+aNumCase);
 	}
         
-         public void construire(Joueur j) {
-            pUi.construction();
-            HashMap<CouleurPropriete,ArrayList<ProprieteAConstruire>> list = new HashMap<>(); //Liste par groupe de couleur de toutes les proprietes du joueur
-            for (ProprieteAConstruire p : j.getProprietesAConstruire()) {
-                if (!list.containsKey(p.getGroupe().getCouleur())) { //Création de la nouvel liste (dans la hashmap) pour un nouveau groupe
-                    ArrayList<ProprieteAConstruire> sousList = new ArrayList<>();
-                    list.put(p.getGroupe().getCouleur(),sousList); //Nouvelle valeur de hashMap
-                }
-                list.get(p.getGroupe().getCouleur()).add(p); //Nouvelle valeur de l'arrayList de la hashMap
-            }
-            for (CouleurPropriete c : list.keySet()) { //Boucle de vérification pour les groupes complets disponibles à la construction
-                if (list.get(c).size()!=list.get(c).get(0).getNbPropriete()) {
-                    list.remove(c);
-                }
-            }
-            
-            if (list.isEmpty()) {
-                pUi.aucunGroupeComplet(); //fin
+         public void construire(ProprieteAConstruire pAC) {
+            ArrayList<ProprieteAConstruire> listP = pAC.getProprietaire().getProprietesAConstruire(pAC.getCouleur());
+            boolean ok = true;
+            int immobilier = pAC.getImmobilier();
+            if (immobilier>5) {
+                ok = false;
             } else {
-                CouleurPropriete coul = pUi.chooseGroupe(list);
-                    ArrayList<ProprieteAConstruire> listP = list.get(coul); //Récupération des proprietes du groupe selectionné
-                        boolean stop = false; //Boolean de construction rapide dans sur les mêmes propriétés
-                        for (ProprieteAConstruire p : listP) {
-                            if (p.isHypotheque()) {
-                                pUi.erreurHypo();
-                                stop = false;
-                            }
-                        }
-                        while (!stop) {
-                            int max = listP.get(0).getImmobilier(); //Max sera la valeur immobilère max des terrains (0 à 5)
-                            boolean onAChanger = false; //Restera false si les terrains ont le même nombre d'immobilier
-                            for (ProprieteAConstruire p : listP) {
-                                if (p.getImmobilier()!=max) {
-                                    onAChanger = true;
-                                    if (p.getImmobilier()>max) {
-                                        max = p.getImmobilier();
-                                    }
-                                }
-                            }
-                            if (!onAChanger && max==5) {
-                                stop=true;
-                                pUi.erreurHotel(); //fin
-                            } else {
-                                HashMap<Integer,ProprieteAConstruire> listPPotentiel = new HashMap<>(); //Liste contenant les proprietés constructibles
-                                if (!onAChanger) {
-                                    max++; //Tous les terrains ont la même valeur immobilière mais pas encore d'hotel
-                                }
-                                pUi.construireSur();
-                                for (ProprieteAConstruire p : listP) {
-                                        if (p.getImmobilier()<max) {
-                                        listPPotentiel.put(p.getNum(), p); //Remplissage de la liste
-                                        pUi.printPropriete(p);
-                                        }
-                                }
-                                if (max>4 && this.getNbHotels()<1) { //Vérification de maisons et hotels restant à la banque
-                                    stop = pUi.errorBanque(true);
-                                } else if (max<5 && this.getNbMaisons()<1) {
-                                    stop = pUi.errorBanque(false);
-                                } else { //Choix du terrain
-                                    int num = pUi.chooseNum();
-                                    try {
-                                        listPPotentiel.get(num).construire();
-                                    } catch(NullPointerException e) {
-                                        pUi.errorConstruction();
-                                    }
-                                    //Boucle de reconstruction rapide
-                                        stop = !pUi.encoreConstruire();
-                                }
-                            }
-                        }
+                if (listP.size()!=pAC.getNbPropriete()) {
+                ok = false;
+            } else {
+                for (ProprieteAConstruire p : listP) {
+                    if (p.getImmobilier()<immobilier) {
+                        ok = false;
+                    } else if (p.isHypotheque()) {
+                        ok = false;
                     }
+                }
+            }
+            if (ok) {
+                pAC.construire();
+            }
         }
-         
-         public void detruire(Joueur j) throws Exception {
-             HashMap<CouleurPropriete,ArrayList<ProprieteAConstruire>> listP = new HashMap<>();
-             ArrayList<ProprieteAConstruire> pros;
-             for (CouleurPropriete c : CouleurPropriete.values()) {
-                 pros = j.getProprietesAConstruire(c);
-                 if (!pros.isEmpty() && pros.get(0).getNbPropriete()==pros.size()) {
-                    int immo = 0;
-                     for(ProprieteAConstruire p : pros) {
-                        immo+=p.getImmobilier();
-                    }
-                    if (immo>0) {
-                        listP.put(pros.get(0).getCouleur(), pros);
-                    } 
-                 }
-             }
-             if (listP.isEmpty()) {
-                 throw new Exception("Aucun de vos groupes de propriétés ne contiennent des constructions");
-             } else { 
-               pros = listP.get(pUi.chooseGroupe(listP));
-               boolean stop = false;
-               while (!stop) {
-                   int min = pros.get(0).getImmobilier(); 
-                   boolean onAChanger = false; 
-                   for (ProprieteAConstruire p : pros) {
-                        if (p.getImmobilier()!=min) {
-                            onAChanger = true;
-                            if (p.getImmobilier()<min) {
-                                min = p.getImmobilier();
-                            }
-                       }
-                   }
-                   if (!onAChanger) {
-                       min--;
-                   }
-                   HashMap<Integer,ProprieteAConstruire> listPPotentiel = new HashMap<>();
-                   pUi.printDetruire();
-                   for (ProprieteAConstruire p : pros) {
-                       if (p.getImmobilier()>min) {
-                           listPPotentiel.put(p.getNum(), p);
-                           pUi.printPropriete(p);
-                       }
-                   }
-                   if (min<0) {
-                       stop = pUi.errorVide();
-                   } else {
-                       try {
-                            listPPotentiel.get(pUi.chooseNum()).detruire();
-                            jUi.printCashVous(j);
-                       } catch(NullPointerException e){
-                           pUi.errorDestruction();
-                       }
-                        stop = !pUi.encoreDetruire();
-                   }
-               }
-             }
          }
+         
+        public void detruire(ProprieteAConstruire pAC) throws Exception {
+            ArrayList<ProprieteAConstruire> listP = pAC.getProprietaire().getProprietesAConstruire(pAC.getCouleur());
+            boolean ok = true;
+            int immobilier = pAC.getImmobilier();
+            if (immobilier<1) {
+                ok = false;
+            } else {
+                int max = 0;
+                for (ProprieteAConstruire p : listP) {
+                    max += p.getImmobilier();
+                    if (p.getImmobilier()>immobilier) {
+                        ok = false;
+                    }
+                }
+                if (max<1) {
+                   throw new Exception("Aucun de vos groupes de propriétés ne contiennent des constructions"); 
+                }
+            if (ok) {
+                pAC.detruire();
+            }
+            }
+        }
          
         public void gestion(){
             gUi = new GestionUI(this, jTemp);
             gUi.setVisible(true);
         }
         
-        public void hypotheque(Joueur j,boolean display) throws Exception{
-            String rep = pUi.menuHypo(display);
-            switch(rep) {
-                case "lever":
-                {
-                    HashMap<Integer,CarreauPropriete> list = new HashMap<>();
-                    pUi.printListHypo();
-                    for (ProprieteAConstruire p : j.getProprietesAConstruire()) {
-                        if (p.isHypotheque()) {
-                            list.put(p.getNum(), p);
-                            pUi.printProprieteProprietaire(p);
-                        }
-                    }
-                    for (Gare g : j.getGares()) {
-                        if (g.isHypotheque()) {
-                            list.put(g.getNum(), g);
-                            pUi.printGare(g);
-                        }
-                    }
-                    for (Compagnie c : j.getCompagnies()) {
-                        if (c.isHypotheque()) {
-                            list.put(c.getNum(), c);
-                            pUi.printCompagnie(c);
-                        }
-                    }
-                    if (list.isEmpty()){
-                        pUi.errorHypo();
-                    } else {
-                        boolean ok = false;
-                        CarreauPropriete c = (CarreauPropriete)carreaux.get(2); //Initialisation de la variable
-                        while (!ok) {
-                            try {
-                                c = list.get(pUi.chooseHypo());
-                                ok = true;
-                            } catch (java.lang.NullPointerException e) {
-                                pUi.errorNonHypo();
-                            }
-                        }
-                        pUi.leverHypo(c);
-                        if (j.getCash()<c.getPrixHypotheque()) {
-                            jUi.errorArgent(j);
-                        } else {
-                            if (pUi.continuerHypo()) {
-                                c.leverHypotheque();
-                                jUi.printCashVous(j);
-                            }
-                        }
-                    }
-                    break;
-                }
-                case "hypotheque":
-                {
-                    HashMap<Integer,CarreauPropriete> list = new HashMap<>();
-                    pUi.hypoDispo();
-                    for (CouleurPropriete c : CouleurPropriete.values()) {
-                        ArrayList<ProprieteAConstruire> pros = j.getProprietesAConstruire(c);
-                        boolean ok = true;
-                        if(!pros.isEmpty()) {
-                            if (pros.size()==pros.get(0).getNbPropriete()) {
-                                int nb = 0;
-                                for (ProprieteAConstruire p : pros) {
-                                    nb+=p.getImmobilier();
-                                }
-                                if (nb>0) {
-                                    ok = false;
-                                }
-                            }
-                            if (ok) {
-                                for (ProprieteAConstruire p : pros) {
-                                    if (!p.isHypotheque()){
-                                        list.put(p.getNum(), p);
-                                        pUi.printProprieteProprietaire(p);
-                                    }
-                                }
-                            }
-                        }    
-                    }
-                    for (Gare g : j.getGares()) {
-                        if (!g.isHypotheque()) {
-                            list.put(g.getNum(), g);
-                            pUi.printGare(g);
-                        }
-                    }
-                    for (Compagnie c : j.getCompagnies()) {
-                        if (!c.isHypotheque()) {
-                            list.put(c.getNum(), c);
-                            pUi.printCompagnie(c);
-                        }
-                    }
-                    if (list.isEmpty()){
-                        throw new Exception("Vous n'avez aucune propriété disponible à l'hypotheque");
-                    } else {
-                       boolean ok = false;
-                        CarreauPropriete c = (CarreauPropriete)carreaux.get(2); //Initialisation de la variable
-                        while (!ok) {
-                            try {
-                                c = list.get(pUi.chooseHypo());
-                                ok = true;
-                            } catch (java.lang.NullPointerException e) {
-                                pUi.errorHypoNonProposee();
-                            }
-                        }
-                        pUi.printHypo(c);
-                            if (pUi.continuerHypo()) {
-                                c.hypotheqer();
-                                jUi.printCashVous(j);
-                            }
-                        }
-                    }
-                }
-            }
         
         
         public void echanger (Joueur j1, Joueur j2, Echange e1, Echange e2){

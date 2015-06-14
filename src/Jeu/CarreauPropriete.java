@@ -42,13 +42,17 @@ public abstract class CarreauPropriete extends Carreau {
         }    
     
         public void leverHypotheque() {
+            if (this.isHypotheque()) {
              this.getProprietaire().removeCash(this.getPrixHypotheque());
              this.setHypotheque(false);
+            }
         }
         
         public void hypotheqer() {
+            if (!this.isHypotheque()) {
             this.getProprietaire().addCash(prix/2);
             this.setHypotheque(true);
+            }
         }
 
 	public abstract int getNbPropriete();

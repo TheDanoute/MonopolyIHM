@@ -12,5 +12,6 @@ public class CarreauMouvement extends CarreauAction {
     public void action(Joueur j){
         super.getMonopoly().getcUi().allerEnPrison();
         j.enPrison();
+        super.getMonopoly().getPlateau().update();
     }
 }

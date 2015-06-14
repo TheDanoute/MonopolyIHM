@@ -42,12 +42,13 @@ public class CarteMouvement extends Carte{
     @Override
     public void action(Joueur j){
         j.getMonopoly().getPlateau().messageLog(this.getDescription());
-        if (verifDep && j.getPositionCourante().getNum()>carreau){
+        if (verifDep && j.getPositionCourante().getNum()>carreau && carreau>1){
             j.addCash(200);
             super.getMonop().getCaUi().laChance();
             j.getMonopoly().getjUi().printCashVous(j);
         }
         j.setPositionCourante(carreau);
+        super.getMonop().getPlateau().update();
         if (verifDep) {
             j.getMonopoly().getCarreau(carreau).action(j);
         } else {

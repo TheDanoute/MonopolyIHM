@@ -37,50 +37,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
         public int getImmobilier() {
 		return immobilier;
 	}
-        
-        /*public String getImmobilierString() {
-            String rep;
-		switch (immobilier) {
-                    case 0:
-                    {
-                        rep = " vide";
-                        break;
-                    }
-                    case 1:
-                    {
-                        rep = " une maison";
-                        break;
-                    }
-                    case 2:
-                    {
-                        rep = " deux maisons";
-                        break;
-                    }
-                    case 3:
-                    {
-                        rep = " trois maisons";
-                        break;
-                    }
-                    case 4:
-                    {
-                        rep = " quatre maisons";
-                        break;
-                    }
-                    case 5:
-                    {
-                        rep = " un hôtel";
-                        break;
-                    }
-                    default:
-                    {
-                        rep = "error";
-                        break;
-                    }
-                }
-                return rep;
-	}*/
 
-	private void setImmobilier(int i) {
+	public void setImmobilier(int i) {
 		immobilier=i;
 	}
         
@@ -131,6 +89,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
                     super.getMonopoly().addMaison(4);
                     super.getMonopoly().removeHotel();
                 }
+                super.getMonopoly().getPlateau().update();
                 super.getMonopoly().getpUi().nouvelleConstruction(this);
             }
         }
@@ -152,6 +111,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
                 super.getProprietaire().addCash(argent);
                 super.getMonopoly().getpUi().destructionMaison(this,argent);
             }
+            super.getMonopoly().getPlateau().update();
         }
         
         @Override
@@ -199,16 +159,9 @@ public class ProprieteAConstruire extends CarreauPropriete {
                     super.getMonopoly().getjUi().printCashLe(j);
                  }
             }
+            super.getMonopoly().getPlateau().update();
         }
         
-        /*@Override
-        public String getDescription() {
-            if (super.isHypotheque()) {
-                return "Propriete HYPOTHEQUEE : " + super.getDescription() + " ; Groupe : " + this.getGroupe() + " ; Construction : " + this.getImmobilierString();
-            } else {
-               return "Propriete : " + super.getDescription() + " ; Groupe : " + this.getGroupe().toString() + " ; Construction : " + this.getImmobilierString();
-            }
-        }*/
         
         public boolean noHypo() {
             boolean retour = true;

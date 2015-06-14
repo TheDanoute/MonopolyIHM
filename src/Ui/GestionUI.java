@@ -127,11 +127,11 @@ public class GestionUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(deleteHouse, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buyHouse, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(leverhypo)
-                            .addComponent(hypothequer, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(deleteHouse, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(buyHouse, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(hypothequer, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                            .addComponent(leverhypo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,8 +181,13 @@ public class GestionUI extends javax.swing.JFrame {
     private void buyHouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyHouseActionPerformed
         if (buyHouse.isEnabled() || listProp.getSelectedItem().getClass().toString().equals("class Jeu.ProprieteAConstruire")){
             CarreauPropriete cp = monop.getCarreauPropriete(listProp.getSelectedItem());
-            ProprieteAConstruire pac = (ProprieteAConstruire) cp;
-            pac.construire();
+            try {
+                ProprieteAConstruire pac = (ProprieteAConstruire) cp;
+                monop.construire(pac);
+            } catch (java.lang.ClassCastException e){
+                
+            }
+            
             setValues();
         }
     }//GEN-LAST:event_buyHouseActionPerformed
@@ -190,8 +195,16 @@ public class GestionUI extends javax.swing.JFrame {
     private void deleteHouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteHouseActionPerformed
         if (deleteHouse.isEnabled() || listProp.getSelectedItem().getClass().toString().equals("class Jeu.ProprieteAConstruire")){
             CarreauPropriete cp = monop.getCarreauPropriete(listProp.getSelectedItem());
-            ProprieteAConstruire pac = (ProprieteAConstruire) cp;
-            pac.detruire();
+            try {
+                ProprieteAConstruire pac = (ProprieteAConstruire) cp;
+            try {
+                monop.detruire(pac);
+            } catch (Exception e) {
+                
+            }
+             } catch (java.lang.ClassCastException e) {
+                
+            }
             setValues();
         }
     }//GEN-LAST:event_deleteHouseActionPerformed
