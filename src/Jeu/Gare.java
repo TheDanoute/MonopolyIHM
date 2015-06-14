@@ -14,7 +14,7 @@ public class Gare extends CarreauPropriete {
         
         @Override
 	public int getLoyer() {
-		return loyer*2^(this.getNbPropriete()-1);//Echelle : 25-50-100-200€
+		return loyer*(int)Math.pow(2,(double)this.getNbPropriete()-1);//Echelle : 25-50-100-200€
 	}
         private void setLoyer(int l){
             loyer=l;//Toujours égal à 25€
