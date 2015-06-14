@@ -14,29 +14,29 @@ public class Gare extends CarreauPropriete {
         
         @Override
 	public int getLoyer() {
-		return loyer*2^(this.getNbPropriete()-1);
+		return loyer*2^(this.getNbPropriete()-1);//Echelle : 25-50-100-200€
 	}
         private void setLoyer(int l){
-            loyer=l;
+            loyer=l;//Toujours égal à 25€
         }
 
         @Override
 	public int getNbPropriete() {
-		return super.getProprietaire().getNombreGare();
+		return super.getProprietaire().getNombreGare();//Revoies le nombre de gare du propriétaire
 	}
 
         @Override
         public void action(Joueur j){
-            if (this.getProprietaire()==null) {
-                if (super.getMonopoly().getpUi().printAchat(this)) {
+            if (this.getProprietaire()==null) {//Achat possible
+                if (super.getMonopoly().getpUi().printAchat(this)) {//Si le joueur a assez d'argent
                     if (j.getCash()>=this.getPrix()) {
                         j.removeCash(this.getPrix());
                         j.getMonopoly().getPlateau().setValues(j);
                         super.getMonopoly().getjUi().printCashVous(j);
                         this.setProprietaire(j);
-                    } else {
+                    } else {//Si le joueur n'a pas assez d'argent
                         super.getMonopoly().getjUi().errorArgent(j);
-                        if (super.getMonopoly().getpUi().jEssaye()) {
+                        if (super.getMonopoly().getpUi().jEssaye()) {//Proposition de vente ou hypotheque pour gagner de l'argent
                             if (j.jEssaye(super.getPrix())) {
                                 j.removeCash(this.getPrix());
                                 j.getMonopoly().getPlateau().setValues(j);
@@ -46,10 +46,10 @@ public class Gare extends CarreauPropriete {
                         }
                     }
                 }
-            } else if (this.getProprietaire()==j) {
+            } else if (this.getProprietaire()==j) {//Propre gare
                 super.getMonopoly().getpUi().printProprePAC(this);
-            } else {
-                if (super.getMonopoly().getpUi().toucherLoyer(this)) {
+            } else {//Déjà un propriétaire
+                if (super.getMonopoly().getpUi().toucherLoyer(this)) {//Vérification si la propriété n'est pas hypothéquée
                     int l = this.getLoyer();
                     j.removeCash(l);
                     j.getMonopoly().getPlateau().setValues(j);
@@ -62,25 +62,18 @@ public class Gare extends CarreauPropriete {
         }
         @Override
         public void setProprietaire(Joueur j) {
-            if (this.getProprietaire()!=null) {
+            if (this.getProprietaire()!=null) {//Si la gare a déjà un propriétaire
                 this.getProprietaire().removeGare(this);
             }
             super.setProprietaire(j);
-            j.addGare(this);
-        }
-        
-        /*@Override
-        public String getDescription() {
-            if (super.isHypotheque()) {
-                return "Gare HYPOTHEQUEE : " + super.getDescription();
-            } else {
-                return "Gare : " + super.getDescription();
+            if (j!=null){//Si ce n'est pas le cas d'un retour de la propriété a la banque
+                j.addGare(this);
             }
-        }*/
+        }
         
         @Override
         public void retourBanque(){
-            super.retourBanque();
+            super.retourBanque();//Leve l'hypotheque
             this.setProprietaire(null);
         }
 }
