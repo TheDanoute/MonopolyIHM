@@ -21,6 +21,7 @@ public class TexteUI {
     }
     
     public  void message (String s){
+        //Affiche tout les messages dans la console de l'ihm
         monop.getPlateau().messageLog(s);
     }
     
