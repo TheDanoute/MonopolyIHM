@@ -23,7 +23,7 @@ public class BoiteDialogUI {
      */
     public static boolean afficherBool(JFrame fenetre, String s) {
         boolean res = false;
-
+        //Boite de dialogue affichant un choix oui/non
         if (s != null) {
             String [] choix = new String[] { "Oui", "Non" }; 
             
@@ -42,7 +42,7 @@ public class BoiteDialogUI {
     }
     
     public static String afficherBoolS(JFrame fenetre, String s) {
-
+        //Boite de dialogue affichant un choix oui/non qui return un String
         boolean res = false;
         if (s != null) {
             String [] choix = new String[] { "Oui", "Non" }; 
@@ -119,7 +119,7 @@ public class BoiteDialogUI {
     
     public static String afficherPayerCarteDes(JFrame fenetre, String s) {
         String res = "";
-
+        //Boite de dialogue affichant le choix du joueur lorsqu'il est en prison
         if (s != null) {
             String [] choix = new String[] { "Payer", "Carte", "Des" }; 
             
@@ -137,6 +137,7 @@ public class BoiteDialogUI {
     }
     
     public static CarreauPropriete ajouterPropriete (JFrame fenetre, String titre, ArrayList<CarreauPropriete> listCp) {
+        //Boite de dialogue permettant d'ajouter une propriete dans la fenetre echange
         String res = null;
         String [] tabCp = new String [listCp.size()];
         int i =0;
@@ -157,6 +158,7 @@ public class BoiteDialogUI {
     }
     
     public static Joueur choixJoueur (JFrame fenetre, String titre, Monopoly monop) {
+        //Boite de dialogue permettant le choix du joueur avant de réaliser l'echange
         Joueur j;
         String res = null;
         String [] tabJ = new String [monop.getJoueurs().size()];
@@ -178,6 +180,7 @@ public class BoiteDialogUI {
     }
     
     public static int choixSomme(JFrame fenetre, String titre) {
+        //Boite de dialogue permettant le choix de la somme a rajouté lors d'un echange
         int res =0;
         Integer [] listS = new Integer [5];
         listS[0]=50;
@@ -194,7 +197,7 @@ public class BoiteDialogUI {
     }
     
     public static String afficherLeverHypotheque(JFrame fenetre, String s) {
-
+        //Boite de dialogue permettant le choix lors d'une hypotheque
         boolean res = false;
         if (s != null) {
             String [] choix = new String[] { "Lever", "Hypothèque" }; 
